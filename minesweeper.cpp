@@ -5,11 +5,11 @@
 
 using namespace std;
 
-const int SIZE = 9; // Board size
-const int MINES = 10; // Number of mines
-vector<vector<char>> board(SIZE, vector<char>(SIZE, '-') );
-vector<vector<int>> mineBoard(SIZE, vector<int>(SIZE, 0)); // Stores mine info
-vector<vector<bool>> flagged(SIZE, vector<bool>(SIZE, false)); // Flagged cells
+int SIZE; // Board size
+int MINES; // Number of mines
+vector<vector<char>> board;
+vector<vector<int>> mineBoard;
+vector<vector<bool>> flagged;
 bool gameOver = false; // Game over flag
 int flaggedMines = 0;
 
@@ -56,6 +56,9 @@ int countMines(int x, int y) {
 
 // Function to initialize the board
 void initializeBoard() {
+    board.assign(SIZE, vector<char>(SIZE, '-'));
+    mineBoard.assign(SIZE, vector<int>(SIZE, 0));
+    flagged.assign(SIZE, vector<bool>(SIZE, false));
     placeMines();
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
@@ -109,8 +112,34 @@ void toggleFlag(int x, int y) {
     }
 }
 
+// Function to set difficulty level
+void setDifficulty() {
+    int choice;
+    cout << "Select difficulty level:\n";
+    cout << "1. Easy (6x6, 6 mines)\n";
+    cout << "2. Medium (9x9, 10 mines)\n";
+    cout << "3. Hard (12x12, 20 mines)\n";
+    cout << "Enter choice: ";
+    cin >> choice;
+    if (choice == 1) {
+        SIZE = 6;
+        MINES = 6;
+    } else if (choice == 2) {
+        SIZE = 9;
+        MINES = 10;
+    } else if (choice == 3) {
+        SIZE = 12;
+        MINES = 20;
+    } else {
+        cout << "Invalid choice! Defaulting to Medium.\n";
+        SIZE = 9;
+        MINES = 10;
+    }
+}
+
 // Main game loop
 void playGame() {
+    setDifficulty();
     initializeBoard();
     while (!gameOver) {
         printBoard();
