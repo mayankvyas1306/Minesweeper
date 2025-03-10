@@ -59,6 +59,8 @@ void initializeBoard() {
     board.assign(SIZE, vector<char>(SIZE, '-'));
     mineBoard.assign(SIZE, vector<int>(SIZE, 0));
     flagged.assign(SIZE, vector<bool>(SIZE, false));
+    gameOver = false;
+    flaggedMines = 0;
     placeMines();
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
@@ -178,6 +180,12 @@ void playGame() {
 
 int main() {
     cout << "Welcome to Minesweeper!" << endl;
-    playGame();
+    char choice;
+    do {
+        playGame();
+        cout << "Do you want to play again? (y/n): ";
+        cin >> choice;
+    } while (choice == 'y' || choice == 'Y');
+    cout << "Thanks for playing!\n";
     return 0;
 }
